@@ -43,14 +43,15 @@
                             Margin="0 5">
                     <TextBlock Text="Логин"
                                FontSize="24"/>
-                    <TextBox FontSize="24"/>
+                    <TextBox x:Name="loginTextBox" 
+                             FontSize="24"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2"
                             Margin="0 5">
                     <TextBlock Text="Пароль"
                                FontSize="24"/>
-                    <TextBox FontSize="24"/>
+                    <TextBox x:Name="passwordTextBox" FontSize="24"/>
                 </StackPanel>
 
                 <Button x:Name="enterButton" 
@@ -58,14 +59,16 @@
                         Content="Войти"
                         FontSize="24"
                         Background="#FFFF"
-                        Margin="0 5"/>
+                        Margin="0 5"
+                        Click="enterButton_Click"/>
 
                 <Button x:Name="catalogButton" 
                         Grid.Row="4"
                         Content="Посмотреть каталог"
                         FontSize="24"
                         Background="#FFFF"
-                        Margin="0 5"/>
+                        Margin="0 5"
+                        Click="catalogButton_Click"/>
             </Grid>
         </Border>
     </Grid>
