@@ -77,6 +77,13 @@ namespace ShoeAccounting
 
         private void catalogButton_Click(object sender, RoutedEventArgs e)
         {
+            UserContext.CurrentUser = new User()
+            {
+                UserLastname = "Режим",
+                UserFirstname = "гостя",
+                UserRole = "Гость"
+            };
+
             NavigateToCatalog();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoeAccounting.Models;
 
@@ -20,4 +21,7 @@ public partial class User
     public string UserPassword { get; set; } = null!;
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    [NotMapped]
+    public string UserFullName => $"{UserLastname} {UserFirstname} {UserPatronymic}";
 }

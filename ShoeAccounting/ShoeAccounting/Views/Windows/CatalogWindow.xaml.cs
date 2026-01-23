@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using ShoeAccounting.Models;
+using ShoeAccounting.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,9 +20,28 @@ namespace ShoeAccounting.Views.Windows
     /// </summary>
     public partial class CatalogWindow : Window
     {
+        public User? CurrentUser { get; set; }
+        public List<Product> Products { get; set; }
+
         public CatalogWindow()
         {
+            CurrentUser = UserContext.CurrentUser;
+            Products = LoadProducts();
+
             InitializeComponent();
+            DataContext = this;
+        }
+
+        private List<Product> LoadProducts()
+        {
+            using (ShoesDbContext context = new ShoesDbContext())
+            {
+                List<Product> products = context.Products.Include(p => p.Category)
+                    .Include(p => p.Provider)
+                    .Include(p => p.Manufacturer)
+                    .ToList();
+                return products;
+            }
         }
     }
 }

@@ -4,9 +4,56 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShoeAccounting.Views.Windows"
+        xmlns:controls="clr-namespace:ShoeAccounting.Views.Controll"
         mc:Ignorable="d"
-        Title="CatalogWindow" Height="450" Width="800">
+        Title="Каталог товаров" Height="720" Width="1280"
+        FontFamily="Times New Roman"
+        Icon="/Resources/Images/Icon.ico">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Background="#00FA9A"
+                BorderBrush="#7FFF00"
+                BorderThickness="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"
+                       Source="/Resources/Images/Icon.png"
+                       Margin="5"
+                       HorizontalAlignment="Left"/>
+
+                <TextBlock Grid.Column="1"
+                           FontSize="24"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                    <Run Text="{Binding CurrentUser.UserFullName, Mode=OneWay}"/>
+                    <Run Text="{Binding CurrentUser.UserRole, StringFormat={}({0})}"/>
+                </TextBlock>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Products}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:ProductControl/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
     </Grid>
 </Window>

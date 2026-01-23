@@ -34,4 +34,8 @@ public partial class Product
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual Provider? Provider { get; set; }
+    public decimal ProductPriceWithDiscount
+    {
+        get => ProductPrice * (decimal)(ProductDiscount / 100);
+    }
 }
