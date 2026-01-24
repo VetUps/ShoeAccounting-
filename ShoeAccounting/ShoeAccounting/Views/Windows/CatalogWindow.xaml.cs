@@ -43,5 +43,11 @@ namespace ShoeAccounting.Views.Windows
                 return products;
             }
         }
+
+        private void backToAuthButton_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            Close();
+        }
     }
 }

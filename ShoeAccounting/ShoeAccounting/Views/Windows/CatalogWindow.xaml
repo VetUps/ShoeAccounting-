@@ -23,13 +23,23 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0"
                        Source="/Resources/Images/Icon.png"
                        Margin="5"
                        HorizontalAlignment="Left"/>
 
-                <TextBlock Grid.Column="1"
+                <Button x:Name="backToAuthButton"
+                        Grid.Column="1"
+                        Margin="20 30"
+                        Padding="30 0"
+                        FontSize="24"
+                        Background="White"
+                        Content="Назад"
+                        Click="backToAuthButton_Click"/>
+
+                <TextBlock Grid.Column="2"
                            FontSize="24"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center">
