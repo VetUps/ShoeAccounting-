@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ShoeAccounting.Models;
 
@@ -34,8 +35,10 @@ public partial class Product
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual Provider? Provider { get; set; }
+    [NotMapped]
     public decimal ProductPriceWithDiscount
     {
-        get => ProductPrice * (decimal)(ProductDiscount / 100);
+        get => ProductPrice - (ProductPrice * (decimal)(ProductDiscount / 100));
+        set;
     }
 }

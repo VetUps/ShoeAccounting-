@@ -4,35 +4,82 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ShoeAccounting.Views.Controll"
+             xmlns:converters="clr-namespace:ShoeAccounting.Utils"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="1280"
              FontFamily="Times New Roman"
              FontSize="18">
+
+    <UserControl.Resources>
+        <converters:TextForegroundDiscountConverter x:Key="TextForegroundDiscountConverter"/>
+        <converters:DiscountVisibilityConverter x:Key="DiscountVisibleConverter"/>
+        <converters:DiscountVisibilityConverter x:Key="DiscountCollapsedConverter" Invert="True"/>
+        <converters:TextForegroundDiscountStockConverter x:Key="TextForegroundDiscountStockConverter"/>
+        <converters:BlobToImageConverter x:Key="BlobToImageConverter"/>
+    </UserControl.Resources>
+
+    <Border BorderBrush="#7FFF00"
+            BorderThickness="3"
+            CornerRadius="5"
+            Margin="5">
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="310"/>
+                <ColumnDefinition Width="900*"/>
+                <ColumnDefinition Width="300*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Width="300" Height="200"
+                   Source="{Binding ProductPhoto, Converter={StaticResource BlobToImageConverter}}"/>
+
+            <StackPanel Grid.Column="1"
+                        Margin="10">
+                <TextBlock FontSize="24"
+                           Foreground="{Binding ProductDiscount, Converter={StaticResource TextForegroundDiscountConverter}}">
+                    <Run Text="{Binding Category.CategoryTitle}"/>
+                    <Run Text=" | "/>
+                    <Run Text="{Binding ProductTitle}"/>
+                </TextBlock>
+
+                <TextBlock Text="{Binding ProductDescription, StringFormat={}Описание товара: {0}}"
+                           Foreground="{Binding ProductDiscount, Converter={StaticResource TextForegroundDiscountConverter}}"/>
+                <TextBlock Text="{Binding Manufacturer.ManufacturerTitle, StringFormat={}Производитель: {0}}"
+                           Foreground="{Binding ProductDiscount, Converter={StaticResource TextForegroundDiscountConverter}}"/>
+                <TextBlock Text="{Binding Provider.ProviderTitle, StringFormat={}Поставщик: {0}}"
+                           Foreground="{Binding ProductDiscount, Converter={StaticResource TextForegroundDiscountConverter}}"/>
+
+                <TextBlock Foreground="{Binding ProductDiscount, Converter={StaticResource TextForegroundDiscountConverter}}"
+                           Visibility="{Binding ProductDiscount, Converter={StaticResource DiscountVisibleConverter}}">
+                    <Run Text="Цена: "/>
+                    <Run Text="{Binding ProductPrice, StringFormat={}{0} руб.}"
+                         TextDecorations="Strikethrough"
+                         Foreground="Red"/>
+                    <Run Text=","/>
+                    <Run Text="{Binding ProductPriceWithDiscount, StringFormat={}{0} руб.}"/>
+                </TextBlock>
+
+                <TextBlock Text="{Binding ProductPrice, StringFormat={}Цена: {0} руб.}" 
+                           Foreground="{Binding ProductDiscount, Converter={StaticResource TextForegroundDiscountConverter}}"
+                           Visibility="{Binding ProductDiscount, Converter={StaticResource DiscountCollapsedConverter}}"/>
+
+                <TextBlock Text="{Binding ProductUnit, StringFormat={}Еденица измерений: {0}}"
+                           Foreground="{Binding ProductDiscount, Converter={StaticResource TextForegroundDiscountConverter}}"/>
+                <TextBlock Text="{Binding ProductQuantityInStock, StringFormat={}Количество на складе: {0} шт.}">
+                    <TextBlock.Foreground>
+                        <MultiBinding Converter="{StaticResource TextForegroundDiscountStockConverter}">
+                            <Binding Path="ProductDiscount"/>
+                            <Binding Path="ProductQuantityInStock"/>
+                        </MultiBinding>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </StackPanel>
+
+            <TextBlock Text="{Binding ProductDiscount, StringFormat={}{0}%}"
+                       Grid.Column="2"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+
+        </Grid>
+    </Border>
     
-    <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="310"/>
-            <ColumnDefinition Width="900*"/>
-            <ColumnDefinition Width="300*"/>
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Grid.Column="1"
-                    Margin="10">
-            <TextBlock FontSize="24">
-                <Run Text="{Binding Category.CategoryTitle}"/>
-                <Run Text=" | "/>
-                <Run Text="{Binding ProductTitle}"/>
-            </TextBlock>
-
-            <TextBlock Text="{Binding ProductDescription, StringFormat={}Описание товара: {0}}"/>
-            <TextBlock Text="{Binding Manufacturer.ManufacturerTitle, StringFormat={}Производитель: {0}}"/>
-            <TextBlock Text="{Binding Provider.ProviderTitle, StringFormat={}Поставщик: {0}}"/>
-            <TextBlock Text="{Binding ProductPrice, StringFormat={}Цена: {0} руб.}"/>
-            <TextBlock Text="{Binding ProductUnit, StringFormat={}Еденица измерений: {0}}"/>
-            <TextBlock Text="{Binding ProductQuantityInStock, StringFormat={}Количество на складе: {0} шт.}"/>
-        </StackPanel>
-
-        <TextBlock/>
-
-    </Grid>
 </UserControl>
