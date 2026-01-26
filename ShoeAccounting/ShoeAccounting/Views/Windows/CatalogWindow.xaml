@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShoeAccounting.Views.Windows"
         xmlns:controls="clr-namespace:ShoeAccounting.Views.Controll"
+        xmlns:converters="clr-namespace:ShoeAccounting.Utils"
         mc:Ignorable="d"
         Title="Каталог товаров" Height="720" Width="1280"
         FontFamily="Times New Roman"
@@ -50,7 +51,37 @@
         </Border>
 
         <Grid Grid.Row="1">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Margin="5"
+                  Visibility="{Binding, Converter={StaticResource CatalogFiltersVisible}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="searchTextBox"
+                         FontSize="24" 
+                         Grid.Column="0"/>
+
+                <StackPanel Grid.Column="1"
+                            Margin="5 0">
+                    <TextBlock Text="Сортировка"
+                               FontSize="24"/>
+                    <ComboBox/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Фильтраци"
+                               FontSize="24"/>
+                    <ComboBox/>
+                </StackPanel>
+            </Grid>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding Products}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

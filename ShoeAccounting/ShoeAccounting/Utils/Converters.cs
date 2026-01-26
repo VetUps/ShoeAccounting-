@@ -114,4 +114,21 @@ namespace ShoeAccounting.Utils
             throw new NotImplementedException();
         }
     }
+
+    public class CatalogFiltersVisible : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string userRole = (string)value;
+
+            if (userRole == "Менеджер" || userRole == "Администратор")
+                return true;
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
