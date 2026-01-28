@@ -45,14 +45,17 @@
                     <TextBlock Text="Логин"
                                FontSize="24"/>
                     <TextBox x:Name="loginTextBox" 
-                             FontSize="24"/>
+                             FontSize="24"
+                             Text="94d5ous@gmail.com"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="2"
                             Margin="0 5">
                     <TextBlock Text="Пароль"
                                FontSize="24"/>
-                    <TextBox x:Name="passwordTextBox" FontSize="24"/>
+                    <TextBox x:Name="passwordTextBox" 
+                             FontSize="24"
+                             Text="uzWC67"/>
                 </StackPanel>
 
                 <Button x:Name="enterButton" 

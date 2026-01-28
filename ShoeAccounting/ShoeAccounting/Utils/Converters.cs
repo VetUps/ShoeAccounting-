@@ -122,8 +122,8 @@ namespace ShoeAccounting.Utils
             string userRole = (string)value;
 
             if (userRole == "Менеджер" || userRole == "Администратор")
-                return true;
-            return false;
+                return Visibility.Visible;
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

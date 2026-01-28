@@ -9,7 +9,13 @@
         mc:Ignorable="d"
         Title="Каталог товаров" Height="720" Width="1280"
         FontFamily="Times New Roman"
-        Icon="/Resources/Images/Icon.ico">
+        Icon="/Resources/Images/Icon.ico"
+        Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <converters:CatalogFiltersVisible x:Key="CatalogFiltersVisible"/>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -57,32 +63,42 @@
             </Grid.RowDefinitions>
 
             <Grid Margin="5"
-                  Visibility="{Binding, Converter={StaticResource CatalogFiltersVisible}}">
+                  Visibility="{Binding CurrentUser.UserRole, Converter={StaticResource CatalogFiltersVisible}}">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="searchTextBox"
                          FontSize="24" 
-                         Grid.Column="0"/>
+                         Grid.Column="0"
+                         TextChanged="searchTextBox_TextChanged"/>
 
                 <StackPanel Grid.Column="1"
                             Margin="5 0">
                     <TextBlock Text="Сортировка"
                                FontSize="24"/>
-                    <ComboBox/>
+                    <ComboBox x:Name="sortComboBox"
+                              FontSize="24"
+                              SelectionChanged="sortComboBox_SelectionChanged">
+                        <ComboBoxItem >По умолчанию</ComboBoxItem>
+                        <ComboBoxItem>По возрастанию (кол-во на складе)</ComboBoxItem>
+                        <ComboBoxItem>По убыванию (кол-во на складе)</ComboBoxItem>
+                    </ComboBox>
                 </StackPanel>
 
                 <StackPanel Grid.Column="2">
-                    <TextBlock Text="Фильтраци"
+                    <TextBlock Text="Фильтрация"
                                FontSize="24"/>
-                    <ComboBox/>
+                    <ComboBox x:Name="filterComboBox"
+                              FontSize="24" 
+                              ItemsSource="{Binding ProvidersFiltrationList}"
+                              SelectionChanged="filterComboBox_SelectionChanged"/>
                 </StackPanel>
             </Grid>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                <ItemsControl ItemsSource="{Binding Products}">
+                <ItemsControl x:Name="shoesItemControl" ItemsSource="{Binding ProductsList}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Margin="10"/>
