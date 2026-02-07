@@ -131,4 +131,19 @@ namespace ShoeAccounting.Utils
             throw new NotImplementedException();
         }
     }
+
+    public class ManagmentSettingsToTitle : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool isNew = (bool)value;
+
+            return isNew ? "Добавление товара" : "Редактирование товара";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
