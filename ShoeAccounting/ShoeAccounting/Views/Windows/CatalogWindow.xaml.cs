@@ -87,7 +87,7 @@ namespace ShoeAccounting.Views.Windows
             ProductsList = LoadProducts();
         }
 
-        private List<Product> LoadProducts()
+        public List<Product> LoadProducts()
         {
             using (ShoesDbContext context = new ShoesDbContext())
             {

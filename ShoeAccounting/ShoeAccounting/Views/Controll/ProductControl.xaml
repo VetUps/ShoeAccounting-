@@ -20,7 +20,7 @@
     </UserControl.Resources>
 
     <UserControl.ContextMenu>
-        <ContextMenu IsEnabled="{Binding UserRole, Converter={StaticResource UserRoleToBool}}">
+        <ContextMenu x:Name="productManagmentContextMenu">
             <MenuItem x:Name="redactProductButton"
                       Header="Редактировать" 
                       Click="redactProductButton_Click"/>

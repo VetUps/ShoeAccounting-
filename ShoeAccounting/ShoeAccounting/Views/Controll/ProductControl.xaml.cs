@@ -1,5 +1,6 @@
 ﻿using ShoeAccounting.Models;
 using ShoeAccounting.Utils;
+using ShoeAccounting.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,13 +21,6 @@ namespace ShoeAccounting.Views.Controll
     /// </summary>
     public partial class ProductControl : UserControl
     {
-        private Product _currentProduct;
-        public Product CurrentProduct
-        {
-            get => _currentProduct;
-            set => _currentProduct = value;
-        }
-
         private User _currentUser;
         public User CurrentUser
         {
@@ -37,14 +31,29 @@ namespace ShoeAccounting.Views.Controll
         public ProductControl()
         {
             InitializeComponent();
-
-            CurrentProduct = DataContext as Product;
             CurrentUser = UserContext.CurrentUser;
+
+            ContextMenuManagment();
+        }
+
+        private void ContextMenuManagment()
+        {
+            if (CurrentUser.UserRole == "Администратор")
+                productManagmentContextMenu.IsEnabled = true;
+            else 
+                productManagmentContextMenu.IsEnabled = false;
         }
 
         private void redactProductButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var editWindow = new ProductManagment(DataContext as Product);
+            if (editWindow.ShowDialog() == true)
+            {
+                if (Window.GetWindow(this) is CatalogWindow catalogWindow)
+                {
+                    catalogWindow.LoadProducts();
+                }
+            }
         }
 
         private void deleteProductButton_Click(object sender, RoutedEventArgs e)
