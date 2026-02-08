@@ -17,8 +17,17 @@ namespace ShoeAccounting.Views.Windows
     /// </summary>
     public partial class ProductManagment : Window
     {
-        public ProductManagment()
+        private bool _isProductNew;
+        public bool IsProductNew
         {
+            get => _isProductNew;
+            set => _isProductNew = value;
+        } 
+
+        public ProductManagment(bool isProductNew = false)
+        {
+            IsProductNew = isProductNew;
+
             InitializeComponent();
         }
     }

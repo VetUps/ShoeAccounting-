@@ -16,7 +16,19 @@
         <converters:DiscountVisibilityConverter x:Key="DiscountCollapsedConverter" Invert="True"/>
         <converters:TextForegroundDiscountStockConverter x:Key="TextForegroundDiscountStockConverter"/>
         <converters:BlobToImageConverter x:Key="BlobToImageConverter"/>
+        <converters:UserRoleToBool x:Key="UserRoleToBool"/>
     </UserControl.Resources>
+
+    <UserControl.ContextMenu>
+        <ContextMenu IsEnabled="{Binding UserRole, Converter={StaticResource UserRoleToBool}}">
+            <MenuItem x:Name="redactProductButton"
+                      Header="Редактировать" 
+                      Click="redactProductButton_Click"/>
+            <MenuItem x:Name="deleteProductButton"
+                      Header="Удалить" 
+                      Click="deleteProductButton_Click"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
 
     <Border BorderBrush="#7FFF00"
             BorderThickness="3"

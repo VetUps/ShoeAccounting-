@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShoeAccounting.Views.Windows"
+        xmlns:converters="clr-namespace:ShoeAccounting.Utils"
         mc:Ignorable="d"
-        Title="Управление товаром" Height="900" Width="1200"
+        Title="{Binding IsProductNew, Converter={StaticResource ManagmentSettingsToTitle}}" Height="900" Width="1200"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:ManagmentSettingsToTitle x:Key="ManagmentSettingsToTitle"/>
+    </Window.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -30,7 +34,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.ColumnSpan="3"
-                   Text="Управление товаром"
+                   Text="{Binding IsProductNew, Converter={StaticResource ManagmentSettingsToTitle}}"
                    FontSize="24"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"

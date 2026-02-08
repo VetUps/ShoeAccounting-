@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ShoeAccounting.Models;
+using ShoeAccounting.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -18,9 +20,36 @@ namespace ShoeAccounting.Views.Controll
     /// </summary>
     public partial class ProductControl : UserControl
     {
+        private Product _currentProduct;
+        public Product CurrentProduct
+        {
+            get => _currentProduct;
+            set => _currentProduct = value;
+        }
+
+        private User _currentUser;
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set => _currentUser = value;
+        }
+
         public ProductControl()
         {
             InitializeComponent();
+
+            CurrentProduct = DataContext as Product;
+            CurrentUser = UserContext.CurrentUser;
+        }
+
+        private void redactProductButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void deleteProductButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
