@@ -136,8 +136,7 @@
                      Text="{Binding CurrentProduct.ProductPrice, UpdateSourceTrigger=PropertyChanged}"
                      Height="28"
                      FontSize="14"
-                     Padding="5"
-                     TextAlignment="Right"/>
+                     Padding="5"/>
 
             <TextBlock Text="Скидка на товар (%)"
                        FontSize="14"
@@ -147,8 +146,7 @@
                      Text="{Binding CurrentProduct.ProductDiscount, UpdateSourceTrigger=PropertyChanged}"
                      Height="28"
                      FontSize="14"
-                     Padding="5"
-                     TextAlignment="Right"/>
+                     Padding="5"/>
 
             <TextBlock Text="Количество на складе *"
                        FontSize="14"

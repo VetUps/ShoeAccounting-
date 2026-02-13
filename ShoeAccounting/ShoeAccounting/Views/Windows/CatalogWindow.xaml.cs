@@ -168,5 +168,17 @@ namespace ShoeAccounting.Views.Windows
             CurrentSearchText = (sender as TextBox).Text.ToLower().Trim();
             ProductsList = LoadProducts();
         }
+
+        private void newProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            var editWindow = new ProductManagment();
+            if (editWindow.ShowDialog() == true)
+            {
+                if (Window.GetWindow(this) is CatalogWindow catalogWindow)
+                {
+                    catalogWindow.LoadProducts();
+                }
+            }
+        }
     }
 }
