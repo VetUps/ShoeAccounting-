@@ -156,10 +156,9 @@
                      Text="{Binding CurrentProduct.ProductQuantityInStock, UpdateSourceTrigger=PropertyChanged}"
                      Height="28"
                      FontSize="14"
-                     Padding="5"
-                     TextAlignment="Right"/>
+                     Padding="5"/>
 
-            <TextBlock Text="Единица измерения"
+            <TextBlock Text="Единица измерения *"
                        FontSize="14"
                        FontWeight="SemiBold"
                        Margin="0,15,0,3"/>

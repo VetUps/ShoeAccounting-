@@ -4,6 +4,7 @@ using ShoeAccounting.Models;
 using ShoeAccounting.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +20,7 @@ namespace ShoeAccounting.Views.Windows
     /// <summary>
     /// Логика взаимодействия для CatalogWindow.xaml
     /// </summary>
-    public partial class CatalogWindow : Window
+    public partial class CatalogWindow : Window, INotifyPropertyChanged
     {
         private List<string> _providersFiltrationList; 
         public List<string> ProvidersFiltrationList
@@ -41,10 +42,10 @@ namespace ShoeAccounting.Views.Windows
             get => _productsList;
             set
             {
-                _productsList = value; 
                 if (value != null)
                 {
-                    shoesItemControl.ItemsSource = ProductsList;
+                    _productsList = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -64,11 +65,17 @@ namespace ShoeAccounting.Views.Windows
         }
 
         private string _currentSearchText;
+
         public string CurrentSearchText
         {
             get => _currentSearchText;
             set => _currentSearchText = value;
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = "")
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public CatalogWindow()
         {

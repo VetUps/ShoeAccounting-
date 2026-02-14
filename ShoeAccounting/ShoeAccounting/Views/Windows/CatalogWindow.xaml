@@ -14,6 +14,8 @@
 
     <Window.Resources>
         <converters:CatalogFiltersVisible x:Key="CatalogFiltersVisible"/>
+        <converters:ProductListCountToVisibility x:Key="ProductListCountToVisibility"/>
+        <converters:ProductListCountToVisibility x:Key="ProductListCountToCollapsed" Invert="True"/>
     </Window.Resources>
     
     <Grid>
@@ -54,7 +56,8 @@
                         FontSize="24"
                         Background="White"
                         Content="Доабвить товар"
-                        Click="newProductButton_Click"/>
+                        Click="newProductButton_Click"
+                        Visibility="{Binding CurrentUser.UserRole, Converter={StaticResource CatalogFiltersVisible}}"/>
 
                 <TextBlock Grid.Column="3"
                            FontSize="24"
@@ -122,6 +125,11 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
+
+            <TextBlock Text="Товаров не найдено" Grid.Row="1" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       FontSize="24"
+                       Visibility="{Binding ProductsList, Converter={StaticResource ProductListCountToCollapsed}}"/>
         </Grid>
 
     </Grid>

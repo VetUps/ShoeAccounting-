@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShoeAccounting.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -159,6 +160,30 @@ namespace ShoeAccounting.Utils
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ProductListCountToVisibility : IValueConverter
+    {
+        public bool Invert { get; set; }
+
+        object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            List<Product> products = (List<Product>)value;
+            if (products == null)
+                return Visibility.Collapsed;
+
+            bool result = products.Count > 0;
+
+            if (Invert)
+                result = !result;
+
+            return result ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
