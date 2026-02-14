@@ -88,7 +88,8 @@
                      Text="{Binding CurrentProduct.ProductTitle, UpdateSourceTrigger=PropertyChanged}"
                      Height="28"
                      FontSize="14"
-                     Padding="5"/>
+                     Padding="5"
+                     MaxLength="100"/>
 
             <TextBlock Text="Артикул *"
                        FontSize="14"
@@ -134,10 +135,11 @@
                        FontWeight="SemiBold"
                        Margin="0,0,0,3"/>
             <TextBox x:Name="productPriceTextBox"
-                     Text="{Binding CurrentProduct.ProductPrice, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding CurrentProduct.ProductPrice, UpdateSourceTrigger=LostFocus, StringFormat={}{0:F2}}"
                      Height="28"
                      FontSize="14"
-                     Padding="5"/>
+                     Padding="5"
+                     MaxLength="100"/>
 
             <TextBlock Text="Скидка на товар (%)"
                        FontSize="14"
@@ -147,7 +149,8 @@
                      Text="{Binding CurrentProduct.ProductDiscount, UpdateSourceTrigger=PropertyChanged}"
                      Height="28"
                      FontSize="14"
-                     Padding="5"/>
+                     Padding="5"
+                     MaxLength="100"/>
 
             <TextBlock Text="Количество на складе *"
                        FontSize="14"
@@ -157,7 +160,8 @@
                      Text="{Binding CurrentProduct.ProductQuantityInStock, UpdateSourceTrigger=PropertyChanged}"
                      Height="28"
                      FontSize="14"
-                     Padding="5"/>
+                     Padding="5"
+                     MaxLength="100"/>
 
             <TextBlock Text="Единица измерения *"
                        FontSize="14"
@@ -165,9 +169,11 @@
                        Margin="0,15,0,3"/>
             <TextBox x:Name="productUnitTextBox"
                      Text="{Binding CurrentProduct.ProductUnit, UpdateSourceTrigger=PropertyChanged}"
+                     IsEnabled="False"
                      Height="28"
                      FontSize="14"
-                     Padding="5"/>
+                     Padding="5"
+                     MaxLength="10"/>
         </StackPanel>
 
         <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
@@ -182,7 +188,8 @@
                      Padding="5"
                      TextWrapping="Wrap"
                      AcceptsReturn="True"
-                     VerticalScrollBarVisibility="Auto"/>
+                     VerticalScrollBarVisibility="Auto"
+                     MaxLength="1000"/>
         </StackPanel>
 
         <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3">

@@ -62,12 +62,24 @@ namespace ShoeAccounting.Views.Controll
             {
                 Product currentProduct = DataContext as Product;
 
-                context.Products.Remove(currentProduct);
-                context.SaveChanges();
-
-                if (Window.GetWindow(this) is CatalogWindow catalogWindow)
+                Order? order = context.Orders.FirstOrDefault(o => o.ProductArticle == currentProduct.ProductArticle);
+                if (order != null)
                 {
-                    catalogWindow.ProductsList = catalogWindow.LoadProducts();
+                    MessageBox.Show("Товар нельзя удалить, так как он есть в заказе", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                else
+                {
+                    if (MessageBox.Show("Вы точно хотите удалить товар?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    {
+                        context.Products.Remove(currentProduct);
+                        context.SaveChanges();
+
+                        if (Window.GetWindow(this) is CatalogWindow catalogWindow)
+                        {
+                            catalogWindow.ProductsList = catalogWindow.LoadProducts();
+                        }
+                    }
+
                 }
             }
         }

@@ -12,7 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using SixLabors.ImageSharp;
 
 namespace ShoeAccounting.Views.Windows
 {
@@ -74,6 +74,7 @@ namespace ShoeAccounting.Views.Windows
                 CurrentProduct = new Product();
                 IsProductNew = true;
                 CurrentProduct.ProductArticle = GenerateArticle();
+                CurrentProduct.ProductUnit = "шт.";
             }
             else
             {
@@ -245,12 +246,26 @@ namespace ShoeAccounting.Views.Windows
 
             if (dialog.ShowDialog() == true)
             {
-                CurrentProduct.ProductPhoto = File.ReadAllBytes(dialog.FileName);
+                using (var image = SixLabors.ImageSharp.Image.Load(dialog.FileName))
+                {
+                    if (image.Width == 300 && image.Height == 200)
+                    {
+                        CurrentProduct.ProductPhoto = File.ReadAllBytes(dialog.FileName);
 
-                var binding = productImage.GetBindingExpression(Image.SourceProperty);
-                binding?.UpdateTarget();
+                        var binding = productImage.GetBindingExpression(System.Windows.Controls.Image.SourceProperty);
+                        binding?.UpdateTarget();
 
-                MessageBox.Show("Изображение загружено!");
+                        MessageBox.Show("Изображение загружено!");
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Изображение должно быть размером ровно 300x200 пикселей.",
+                            "Ошибка",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
+                    }
+                }
             }
         }
     }

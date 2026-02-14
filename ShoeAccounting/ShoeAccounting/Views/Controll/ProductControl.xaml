@@ -63,11 +63,11 @@
                 <TextBlock Foreground="{Binding ProductDiscount, Converter={StaticResource TextForegroundDiscountConverter}}"
                            Visibility="{Binding ProductDiscount, Converter={StaticResource DiscountVisibleConverter}}">
                     <Run Text="Цена: "/>
-                    <Run Text="{Binding ProductPrice, StringFormat={}{0} руб.}"
+                    <Run Text="{Binding ProductPrice, StringFormat={}{0:F2} руб.}"
                          TextDecorations="Strikethrough"
                          Foreground="Red"/>
                     <Run Text=","/>
-                    <Run Text="{Binding ProductPriceWithDiscount, StringFormat={}{0} руб.}"/>
+                    <Run Text="{Binding ProductPriceWithDiscount, StringFormat={}{0:F2} руб.}"/>
                 </TextBlock>
 
                 <TextBlock Text="{Binding ProductPrice, StringFormat={}Цена: {0} руб.}" 
