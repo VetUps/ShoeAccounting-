@@ -73,11 +73,13 @@ namespace ShoeAccounting.Views.Windows
             {
                 CurrentProduct = new Product();
                 IsProductNew = true;
+                CurrentProduct.ProductArticle = GenerateArticle();
             }
             else
             {
                 CurrentProduct = product;
                 IsProductNew = false;
+                productArticleTextBox.IsEnabled = false;
             }
 
             LoadComboBoxData();
@@ -92,6 +94,20 @@ namespace ShoeAccounting.Views.Windows
                 Manufacturers = context.Manufacturers.ToList();
                 Providers = context.Providers.ToList();
             }
+        }
+
+        private string GenerateArticle()
+        {
+            Random random = new Random();
+            string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            char[] chars = new char[6];
+            for (int i = 0; i < 6; i++)
+            {
+                chars[i] = allowedChars[random.Next(allowedChars.Length)];
+            }
+
+            return new string(chars);
         }
 
         private void saveProductButton_Click(object sender, RoutedEventArgs e)

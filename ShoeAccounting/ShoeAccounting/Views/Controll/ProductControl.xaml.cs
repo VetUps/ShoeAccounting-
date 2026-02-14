@@ -51,14 +51,25 @@ namespace ShoeAccounting.Views.Controll
             {
                 if (Window.GetWindow(this) is CatalogWindow catalogWindow)
                 {
-                    catalogWindow.LoadProducts();
+                    catalogWindow.ProductsList = catalogWindow.LoadProducts();
                 }
             }
         }
 
         private void deleteProductButton_Click(object sender, RoutedEventArgs e)
         {
+            using (ShoesDbContext context = new ShoesDbContext())
+            {
+                Product currentProduct = DataContext as Product;
 
+                context.Products.Remove(currentProduct);
+                context.SaveChanges();
+
+                if (Window.GetWindow(this) is CatalogWindow catalogWindow)
+                {
+                    catalogWindow.ProductsList = catalogWindow.LoadProducts();
+                }
+            }
         }
     }
 }

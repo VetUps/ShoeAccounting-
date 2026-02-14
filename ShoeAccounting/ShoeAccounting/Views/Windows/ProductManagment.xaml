@@ -98,7 +98,8 @@
                      Text="{Binding CurrentProduct.ProductArticle, UpdateSourceTrigger=PropertyChanged}"
                      Height="28"
                      FontSize="14"
-                     Padding="5"/>
+                     Padding="5"
+                     MaxLength="6"/>
 
             <TextBlock Text="Категория"
                        FontSize="14"
