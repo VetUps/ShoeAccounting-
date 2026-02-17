@@ -1,5 +1,6 @@
 ﻿using ShoeAccounting.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -171,11 +172,14 @@ namespace ShoeAccounting.Utils
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            List<Product> products = (List<Product>)value;
-            if (products == null)
+            if (value == null)
                 return Visibility.Collapsed;
 
-            bool result = products.Count > 0;
+            int count = 0;
+            if (value is ICollection collection)
+                count = collection.Count;
+
+            bool result = count > 0;
 
             if (Invert)
                 result = !result;

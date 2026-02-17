@@ -187,5 +187,11 @@ namespace ShoeAccounting.Views.Windows
                 }
             }
         }
+
+        private void ordersButton_Click(object sender, RoutedEventArgs e)
+        {
+            new OrdersWindow().Show();
+            Close();
+        }
     }
 }

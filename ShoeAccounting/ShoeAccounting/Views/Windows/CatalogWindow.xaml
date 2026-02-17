@@ -34,23 +34,25 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0"
                        Source="/Resources/Images/Icon.png"
                        Margin="5"
                        HorizontalAlignment="Left"/>
 
-                <Button x:Name="backToAuthButton"
-                        Grid.Column="2"
+                <Button x:Name="ordersButton"
+                        Grid.Column="1"
                         Margin="20 30"
                         Padding="30 0"
                         FontSize="24"
                         Background="White"
-                        Content="Назад"
-                        Click="backToAuthButton_Click"/>
-
+                        Content="Заказы"
+                        Click="ordersButton_Click"
+                        Visibility="{Binding CurrentUser.UserRole, Converter={StaticResource CatalogFiltersVisible}}"/>
+                
                 <Button x:Name="newProductButton"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         Margin="20 30"
                         Padding="30 0"
                         FontSize="24"
@@ -58,8 +60,17 @@
                         Content="Доабвить товар"
                         Click="newProductButton_Click"
                         Visibility="{Binding CurrentUser.UserRole, Converter={StaticResource CatalogFiltersVisible}}"/>
+                
+                <Button x:Name="backToAuthButton"
+                        Grid.Column="3"
+                        Margin="20 30"
+                        Padding="30 0"
+                        FontSize="24"
+                        Background="White"
+                        Content="Назад"
+                        Click="backToAuthButton_Click"/>
 
-                <TextBlock Grid.Column="3"
+                <TextBlock Grid.Column="4"
                            FontSize="24"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center">
