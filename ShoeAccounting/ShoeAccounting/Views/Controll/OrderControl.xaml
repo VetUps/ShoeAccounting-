@@ -8,6 +8,18 @@
              d:DesignHeight="200" d:DesignWidth="1280"
              FontFamily="Times New Roman"
              FontSize="18">
+    
+    <UserControl.ContextMenu>
+        <ContextMenu x:Name="orderManagmentContextMenu">
+            <MenuItem x:Name="redactOrderButton"
+                  Header="Редактировать" 
+                  Click="redactOrderButton_Click"/>
+            <MenuItem x:Name="deleteOrderButton"
+                  Header="Удалить" 
+                  Click="deleteOrderButton_Click"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    
     <Grid>
         <Border BorderBrush="#7FFF00"
                 BorderThickness="3"

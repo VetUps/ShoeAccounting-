@@ -58,6 +58,7 @@ namespace ShoeAccounting.Views.Windows
             {
                 List<Order> orders = context.Orders
                     .Include(o => o.PickUpPoint)
+                    .Include(o => o.OrderPositions)
                     .OrderByDescending(o => o.OrderDateMake)
                     .ToList();
                 return orders;

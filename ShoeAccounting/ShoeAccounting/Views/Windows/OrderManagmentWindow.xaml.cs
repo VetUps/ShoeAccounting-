@@ -81,13 +81,11 @@ namespace ShoeAccounting.Views.Windows
             public string ProductArticle
             {
                 get => SelectedProduct?.ProductArticle ?? string.Empty;
-                set => SelectedProduct?.ProductArticle = value;
             }
 
             public string ProductTitle
             {
                 get => SelectedProduct?.ProductTitle ?? string.Empty;
-                set => SelectedProduct?.ProductTitle = value;
             }
 
             public int Quantity
@@ -139,6 +137,7 @@ namespace ShoeAccounting.Views.Windows
         public OrderManagmentWindow(Order? order = null)
         {
             InitializeComponent();
+            LoadComboBoxData();
 
             if (order == null)
             {
@@ -153,7 +152,6 @@ namespace ShoeAccounting.Views.Windows
                 LoadExistingPositions(order);
             }
 
-            LoadComboBoxData();
             SetOrderDatePickerLimits();
             SetDeliveryDatePickerLimits();
 
@@ -171,8 +169,7 @@ namespace ShoeAccounting.Views.Windows
                     _positions.Add(new OrderPositionItem
                     {
                         Quantity = pos.ProductQuantity,
-                        ProductArticle = pos.ProductArticle,
-                        ProductTitle = product.ProductTitle
+                        SelectedProduct = product,
                     });
                 }
             }
