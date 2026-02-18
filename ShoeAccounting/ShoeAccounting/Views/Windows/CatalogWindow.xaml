@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         Title="Каталог товаров" Height="720" Width="1280"
         FontFamily="Times New Roman"
+        WindowStartupLocation="CenterScreen"
         Icon="/Resources/Images/Icon.ico"
         Loaded="Window_Loaded">
 

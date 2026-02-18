@@ -62,8 +62,8 @@ namespace ShoeAccounting.Views.Controll
             {
                 Product currentProduct = DataContext as Product;
 
-                Order? order = context.Orders.FirstOrDefault(o => o.ProductArticle == currentProduct.ProductArticle);
-                if (order != null)
+                OrderPosition? orderPosition = context.OrderPositions.FirstOrDefault(o => o.ProductArticle == currentProduct.ProductArticle);
+                if (orderPosition != null)
                 {
                     MessageBox.Show("Товар нельзя удалить, так как он есть в заказе", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }

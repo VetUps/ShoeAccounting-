@@ -7,13 +7,9 @@ public partial class Order
 {
     public int OrderId { get; set; }
 
-    public string? ProductArticle { get; set; }
+    public DateOnly OrderDateMake { get; set; }
 
-    public int? ProductQuantity { get; set; }
-
-    public DateOnly? OrderDateMake { get; set; }
-
-    public DateOnly? OrderDateReceipt { get; set; }
+    public DateOnly OrderDateReceipt { get; set; }
 
     public int PickUpPointId { get; set; }
 
@@ -23,9 +19,9 @@ public partial class Order
 
     public string? OrderStatus { get; set; }
 
-    public virtual PickUpPoint PickUpPoint { get; set; } = null!;
+    public virtual ICollection<OrderPosition> OrderPositions { get; set; } = new List<OrderPosition>();
 
-    public virtual Product? ProductArticleNavigation { get; set; }
+    public virtual PickUpPoint PickUpPoint { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
 }

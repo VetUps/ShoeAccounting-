@@ -77,7 +77,7 @@ namespace ShoeAccounting.Views.Windows
             {
                 if (Window.GetWindow(this) is OrdersWindow orderWindow)
                 {
-                    orderWindow.LoadOrders();
+                    OrdersList = orderWindow.LoadOrders();
                 }
             }
         }

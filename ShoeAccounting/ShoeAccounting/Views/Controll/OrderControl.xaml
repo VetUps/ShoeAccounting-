@@ -21,8 +21,12 @@
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Margin="10">
-                    <TextBlock Text="{Binding ProductArticle}"
-                               FontSize="24"/>
+                    <Button x:Name="orderPositionsButton"
+                            Content="Состав заказа"
+                            FontSize="24"
+                            HorizontalAlignment="Left"
+                            Background="Transparent"
+                            Click="orderPositionsButton_Click"/>
                     <TextBlock Text="{Binding OrderStatus, StringFormat={}Статус: {0}}"/>
                     <TextBlock>
                         <Run Text="Адрес пункта выдачи: "/>

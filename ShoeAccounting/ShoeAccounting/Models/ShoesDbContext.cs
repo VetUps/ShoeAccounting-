@@ -22,6 +22,8 @@ public partial class ShoesDbContext : DbContext
 
     public virtual DbSet<Order> Orders { get; set; }
 
+    public virtual DbSet<OrderPosition> OrderPositions { get; set; }
+
     public virtual DbSet<PickUpPoint> PickUpPoints { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
@@ -32,7 +34,7 @@ public partial class ShoesDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;user=root;password=1234;database=shoes_db", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.44-mysql"));
+        => optionsBuilder.UseMySql("server=localhost;user=root;password=1234;database=shoes_db_2", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.42-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -72,14 +74,10 @@ public partial class ShoesDbContext : DbContext
 
             entity.HasIndex(e => e.PickUpPointId, "o_pick_up_id_fk_idx");
 
-            entity.HasIndex(e => e.ProductArticle, "o_product_article_fk_idx");
-
             entity.HasIndex(e => e.UserId, "o_user_id_idx");
 
             entity.Property(e => e.OrderId).HasColumnName("order_id");
-            entity.Property(e => e.OrderDateMake)
-                .HasDefaultValueSql("curdate()")
-                .HasColumnName("order_date_make");
+            entity.Property(e => e.OrderDateMake).HasColumnName("order_date_make");
             entity.Property(e => e.OrderDateReceipt).HasColumnName("order_date_receipt");
             entity.Property(e => e.OrderReceiptCode)
                 .HasMaxLength(10)
@@ -89,11 +87,6 @@ public partial class ShoesDbContext : DbContext
                 .HasColumnType("enum('Новый','Завершен')")
                 .HasColumnName("order_status");
             entity.Property(e => e.PickUpPointId).HasColumnName("pick_up_point_id");
-            entity.Property(e => e.ProductArticle)
-                .HasMaxLength(6)
-                .IsFixedLength()
-                .HasColumnName("product_article");
-            entity.Property(e => e.ProductQuantity).HasColumnName("product_quantity");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.PickUpPoint).WithMany(p => p.Orders)
@@ -101,14 +94,39 @@ public partial class ShoesDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("o_pick_up_id_fk");
 
-            entity.HasOne(d => d.ProductArticleNavigation).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.ProductArticle)
-                .HasConstraintName("o_product_article_fk");
-
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("o_user_id");
+        });
+
+        modelBuilder.Entity<OrderPosition>(entity =>
+        {
+            entity.HasKey(e => e.OrderPositionId).HasName("PRIMARY");
+
+            entity.ToTable("order_positions");
+
+            entity.HasIndex(e => e.OrderId, "o_p_order_id_fk_idx");
+
+            entity.HasIndex(e => e.ProductArticle, "o_p_product_id_fk_idx");
+
+            entity.Property(e => e.OrderPositionId).HasColumnName("order_position_id");
+            entity.Property(e => e.OrderId).HasColumnName("order_id");
+            entity.Property(e => e.ProductArticle)
+                .HasMaxLength(6)
+                .IsFixedLength()
+                .HasColumnName("product_article");
+            entity.Property(e => e.ProductQuantity).HasColumnName("product_quantity");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderPositions)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("o_p_order_id_fk");
+
+            entity.HasOne(d => d.ProductArticleNavigation).WithMany(p => p.OrderPositions)
+                .HasForeignKey(d => d.ProductArticle)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("o_p_product_id_fk");
         });
 
         modelBuilder.Entity<PickUpPoint>(entity =>

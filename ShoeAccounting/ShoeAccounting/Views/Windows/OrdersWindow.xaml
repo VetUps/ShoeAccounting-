@@ -10,6 +10,7 @@
         Title="Заказы" 
         Height="720" Width="1280"
         FontFamily="Times New Roman"
+        WindowStartupLocation="CenterScreen"
         Icon="/Resources/Images/Icon.ico">
     
     <Window.Resources>

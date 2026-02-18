@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShoeAccounting.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -21,6 +22,21 @@ namespace ShoeAccounting.Views.Controll
         public OrderControl()
         {
             InitializeComponent();
+        }
+
+        private void orderPositionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Order currnetOrder = DataContext as Order;
+            using (ShoesDbContext context = new ShoesDbContext())
+            {
+                List<OrderPosition> orderPositions = context.OrderPositions.Where(op => op.OrderId == currnetOrder.OrderId).ToList();
+
+                string orderPositionsString = "Товары в заказе:\n";
+                foreach (OrderPosition orderPosition in orderPositions)
+                    orderPositionsString += $"{orderPosition.ProductArticle} - {orderPosition.ProductQuantity} шт.\n";
+
+                MessageBox.Show(orderPositionsString, "Состав заказа", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

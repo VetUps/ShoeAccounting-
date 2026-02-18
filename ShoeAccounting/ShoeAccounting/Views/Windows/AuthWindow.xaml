@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Авторизация" Height="720" Width="1280"
         FontFamily="Times New Roman"
+        WindowStartupLocation="CenterScreen"
         Icon="/Resources/Images/Icon.ico">
     <Grid>
         <Grid.RowDefinitions>

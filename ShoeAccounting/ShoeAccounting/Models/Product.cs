@@ -32,7 +32,7 @@ public partial class Product
 
     public virtual Manufacturer? Manufacturer { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<OrderPosition> OrderPositions { get; set; } = new List<OrderPosition>();
 
     public virtual Provider? Provider { get; set; }
     [NotMapped]
