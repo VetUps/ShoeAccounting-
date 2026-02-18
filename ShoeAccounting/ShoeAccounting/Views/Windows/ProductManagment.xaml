@@ -7,7 +7,10 @@
         xmlns:converters="clr-namespace:ShoeAccounting.Utils"
         mc:Ignorable="d"
         Title="Управление товаром" Height="900" Width="1200"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Times New Roman"
+        Icon="/Resources/Images/Icon.ico">
+
     <Window.Resources>
         <converters:ManagmentSettingsToTitle x:Key="ManagmentSettingsToTitle"/>
         <converters:BlobToImageConverter x:Key="BlobToImageConverter"/>

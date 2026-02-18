@@ -21,15 +21,12 @@
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Margin="10">
-                    <TextBlock Text="{Binding ProductArticle}"/>
-                    <TextBlock Text="{Binding OrderStatus}"/>
+                    <TextBlock Text="{Binding ProductArticle}"
+                               FontSize="24"/>
+                    <TextBlock Text="{Binding OrderStatus, StringFormat={}Статус: {0}}"/>
                     <TextBlock>
-                        <Run Text="{Binding PickUpPoint.PickUpPointCity}"/>
-                        <Run Text="|"/>
-                        <Run Text="{Binding PickUpPoint.PickUpPointStreet}"/>
-                        <Run Text="{Binding PickUpPoint.PickUpPointHome}"/>
-                        <Run Text="|"/>
-                        <Run Text="{Binding PickUpPoint.PickUpPointPostalCode}"/>
+                        <Run Text="Адрес пункта выдачи: "/>
+                        <Run Text="{Binding PickUpPoint.DisplayAddress}"/>
                     </TextBlock>
                     <TextBlock Text="{Binding OrderDateMake, StringFormat={}Дата заказа: {0}}"/>
                 </StackPanel>

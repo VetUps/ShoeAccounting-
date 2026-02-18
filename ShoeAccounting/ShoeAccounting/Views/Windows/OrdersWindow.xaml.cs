@@ -52,19 +52,13 @@ namespace ShoeAccounting.Views.Windows
             DataContext = this;
         }
 
-        /*
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.Loaded -= Window_Loaded;
-        }
-        */
-
         public List<Order> LoadOrders()
         {
             using (ShoesDbContext context = new ShoesDbContext())
             {
                 List<Order> orders = context.Orders
                     .Include(o => o.PickUpPoint)
+                    .OrderByDescending(o => o.OrderDateMake)
                     .ToList();
                 return orders;
             }
@@ -78,7 +72,14 @@ namespace ShoeAccounting.Views.Windows
 
         private void newOrderButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var editWindow = new OrderManagmentWindow();
+            if (editWindow.ShowDialog() == true)
+            {
+                if (Window.GetWindow(this) is OrdersWindow orderWindow)
+                {
+                    orderWindow.LoadOrders();
+                }
+            }
         }
     }
 }

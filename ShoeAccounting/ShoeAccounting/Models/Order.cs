@@ -13,7 +13,7 @@ public partial class Order
 
     public DateOnly? OrderDateMake { get; set; }
 
-    public DateOnly OrderDateReceipt { get; set; }
+    public DateOnly? OrderDateReceipt { get; set; }
 
     public int PickUpPointId { get; set; }
 
