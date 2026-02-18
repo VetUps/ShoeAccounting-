@@ -4,12 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShoeAccounting.Views.Windows"
+        xmlns:converters="clr-namespace:ShoeAccounting.Utils"
         mc:Ignorable="d"
         Title="Управление заказами" Height="Auto" Width="1200"
         WindowStartupLocation="CenterScreen"
         Icon="/Resources/Images/Icon.ico"
         FontFamily="Times New Roman"
         FontSize="18">
+    
+    <Window.Resources>
+        <converters:OrderManagmentSettingsToTitle x:Key="OrderManagmentSettingsToTitle"/>
+    </Window.Resources>
     
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -27,7 +32,8 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0"
-                   Text="{Binding IsOrderNew}"
+                   Grid.ColumnSpan="3"
+                   Text="{Binding IsOrderNew, Converter={StaticResource OrderManagmentSettingsToTitle}}"
                    FontSize="24"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
