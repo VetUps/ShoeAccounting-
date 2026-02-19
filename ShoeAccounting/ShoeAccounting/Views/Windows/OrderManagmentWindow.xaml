@@ -70,8 +70,10 @@
                        FontWeight="SemiBold"
                        Margin="0,15,0,3"/>
             <DatePicker x:Name="orderDatePicker"
+                        IsEnabled="False"
                         SelectedDate="{Binding OrderDateMakeDateTime, UpdateSourceTrigger=PropertyChanged}"
                         SelectedDateChanged="orderDatePicker_SelectedDateChanged"
+                        
                         Height="28"
                         FontSize="14"
                         Padding="3"/>

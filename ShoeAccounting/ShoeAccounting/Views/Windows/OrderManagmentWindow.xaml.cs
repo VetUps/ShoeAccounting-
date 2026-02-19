@@ -224,7 +224,7 @@ namespace ShoeAccounting.Views.Windows
                 Statuses = new List<string>
                 {
                     "Новый",
-                    "Завершён"
+                    "Завершен"
                 };
             }
         }
@@ -233,6 +233,22 @@ namespace ShoeAccounting.Views.Windows
         {
             orderDatePicker.DisplayDateStart = DateTime.Today.Date;
             orderDatePicker.DisplayDateEnd = DateTime.Today.AddMonths(1).Date;
+        }
+
+        private bool ValidateProductStock(string productArticle, int quantity)
+        {
+            using(ShoesDbContext context = new ShoesDbContext())
+            {
+                Product? product = context.Products.FirstOrDefault(p => p.ProductArticle ==  productArticle);
+
+                if (product != null)
+                {
+                    if (quantity > product.ProductQuantityInStock)
+                        return false;
+                    return true;
+                }
+                return false;
+            }
         }
 
         private void SetDeliveryDatePickerLimits()
@@ -262,9 +278,9 @@ namespace ShoeAccounting.Views.Windows
             {
                 errors.Add("• Выберите статус заказа");
             }
-            else if (CurrentOrder.OrderStatus != "Новый" && CurrentOrder.OrderStatus != "Завершён")
+            else if (CurrentOrder.OrderStatus != "Новый" && CurrentOrder.OrderStatus != "Завершен")
             {
-                errors.Add("• Недопустимый статус заказа (допустимые: \"Новый\", \"Завершён\")");
+                errors.Add("• Недопустимый статус заказа (допустимые: \"Новый\", \"Завершен\")");
             }
 
             // Пункт выдачи
@@ -319,6 +335,9 @@ namespace ShoeAccounting.Views.Windows
                         errors.Add($"• Позиция #{i + 1}: количество должно быть больше 0");
                     else if (pos.Quantity > 999)
                         errors.Add($"• Позиция #{i + 1}: максимальное количество — 999 шт.");
+
+                    if (!ValidateProductStock(pos.ProductArticle, pos.Quantity))
+                        errors.Add($"• Позиция #{i + 1}: такого колличества товара нет на складе");
                 }
             }
 

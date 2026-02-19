@@ -44,11 +44,11 @@
                         <Run Text="Адрес пункта выдачи: "/>
                         <Run Text="{Binding PickUpPoint.DisplayAddress}"/>
                     </TextBlock>
-                    <TextBlock Text="{Binding OrderDateMake, StringFormat={}Дата заказа: {0}}"/>
+                    <TextBlock Text="{Binding OrderDateMake, StringFormat={}Дата заказа: {0:dd.MM.yyyy}}"/>
                 </StackPanel>
 
                 <TextBlock Grid.Column="2" 
-                           Text="{Binding OrderDateReceipt, StringFormat={}Дата получения: {0}}"
+                           Text="{Binding OrderDateReceipt, StringFormat={}Дата получения: {0:dd.MM.yyyy}}"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"/>
             </Grid>
