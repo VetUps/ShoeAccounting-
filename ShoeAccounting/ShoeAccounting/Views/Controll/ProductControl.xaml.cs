@@ -1,24 +1,13 @@
 ﻿using ShoeAccounting.Models;
 using ShoeAccounting.Utils;
 using ShoeAccounting.Views.Windows;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using static ShoeAccounting.Controllers.ProductController;
+using static ShoeAccounting.Controllers.OrderController;
 
 namespace ShoeAccounting.Views.Controll
 {
-    /// <summary>
-    /// Логика взаимодействия для ProductControl.xaml
-    /// </summary>
     public partial class ProductControl : UserControl
     {
         private User _currentUser;
@@ -51,36 +40,32 @@ namespace ShoeAccounting.Views.Controll
             {
                 if (Window.GetWindow(this) is CatalogWindow catalogWindow)
                 {
-                    catalogWindow.ProductsList = catalogWindow.LoadProducts();
+                    catalogWindow.ProductsList = LoadProducts(catalogWindow.CurrentFilterMethod, catalogWindow.CurrentSortMethod, catalogWindow.CurrentSearchText);
                 }
             }
         }
 
         private void deleteProductButton_Click(object sender, RoutedEventArgs e)
         {
-            using (ShoesDbContext context = new ShoesDbContext())
+            Product currentProduct = DataContext as Product;
+
+            OrderPosition? orderPosition = GetOrderPositionByProduct(currentProduct);
+            if (orderPosition != null)
             {
-                Product currentProduct = DataContext as Product;
+                MessageBox.Show("Товар нельзя удалить, так как он есть в заказе", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                if (MessageBox.Show("Вы точно хотите удалить товар?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    DeleteProduct(currentProduct);
 
-                OrderPosition? orderPosition = context.OrderPositions.FirstOrDefault(o => o.ProductArticle == currentProduct.ProductArticle);
-                if (orderPosition != null)
-                {
-                    MessageBox.Show("Товар нельзя удалить, так как он есть в заказе", "Ошибка удаления", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-                else
-                {
-                    if (MessageBox.Show("Вы точно хотите удалить товар?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    if (Window.GetWindow(this) is CatalogWindow catalogWindow)
                     {
-                        context.Products.Remove(currentProduct);
-                        context.SaveChanges();
-
-                        if (Window.GetWindow(this) is CatalogWindow catalogWindow)
-                        {
-                            catalogWindow.ProductsList = catalogWindow.LoadProducts();
-                        }
+                        catalogWindow.ProductsList = LoadProducts(catalogWindow.CurrentFilterMethod, catalogWindow.CurrentSortMethod, catalogWindow.CurrentSearchText);
                     }
-
                 }
+
             }
         }
     }

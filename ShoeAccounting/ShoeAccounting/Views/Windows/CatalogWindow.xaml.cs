@@ -1,19 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using ShoeAccounting.Models;
+﻿using ShoeAccounting.Models;
 using ShoeAccounting.Utils;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using static ShoeAccounting.Controllers.ProductController;
+using static ShoeAccounting.Controllers.ProviderController;
 
 namespace ShoeAccounting.Views.Windows
 {
@@ -91,50 +82,12 @@ namespace ShoeAccounting.Views.Windows
             this.Loaded -= Window_Loaded;
             SelectDefaultComboBoxValues();
 
-            ProductsList = LoadProducts();
-        }
-
-        public List<Product> LoadProducts()
-        {
-            using (ShoesDbContext context = new ShoesDbContext())
-            {
-                IQueryable<Product> products = context.Products
-                    .Include(p => p.Category)
-                    .Include(p => p.Provider)
-                    .Include(p => p.Manufacturer);
-
-                if (CurrentFilterMethod != "Все поставщики")
-                    products = products.Where(p => p.Provider.ProviderTitle == CurrentFilterMethod);
-
-                if (CurrentSortMethod == "По возрастанию (кол-во на складе)")
-                    products = products.OrderBy(p => p.ProductQuantityInStock);
-
-                else if (CurrentSortMethod == "По убыванию (кол-во на складе)")
-                    products = products.OrderByDescending(p => p.ProductQuantityInStock);
-
-                if (!string.IsNullOrEmpty(CurrentSearchText))
-                    products = products.Where(
-                        p => p.ProductTitle.ToLower().Trim().Contains(CurrentSearchText) ||
-                        p.ProductDescription.ToLower().Trim().Contains(CurrentSearchText) ||
-                        p.Category.CategoryTitle.ToLower().Trim().Contains(CurrentSearchText)
-                    );
-
-                return products.ToList();
-            }
-        }
-
-        private List<Provider> LoadProviders()
-        {
-            using (ShoesDbContext context = new ShoesDbContext ())
-            {
-                List<Provider> providers = context.Providers.ToList();
-                return providers;
-            }
+            ProductsList = LoadProducts(CurrentFilterMethod, CurrentSortMethod, CurrentSearchText);
         }
 
         private List<string> LoadProvidersFiltrationList()
         {
-            List<Provider> providersList = LoadProviders();
+            List<Provider> providersList = GetProviders();
             List<string> providersFiltrationList = new List<string>() { "Все поставщики" };
 
             foreach (Provider provider in providersList)
@@ -161,19 +114,19 @@ namespace ShoeAccounting.Views.Windows
         private void sortComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentSortMethod = ((sender as ComboBox).SelectedItem as ComboBoxItem).Content as string;
-            ProductsList = LoadProducts();
+            ProductsList = LoadProducts(CurrentFilterMethod, CurrentSortMethod, CurrentSearchText);
         }
 
         private void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentFilterMethod = (sender as ComboBox).SelectedItem as string;
-            ProductsList = LoadProducts();
+            ProductsList = LoadProducts(CurrentFilterMethod, CurrentSortMethod, CurrentSearchText);
         }
 
         private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             CurrentSearchText = (sender as TextBox).Text.ToLower().Trim();
-            ProductsList = LoadProducts();
+            ProductsList = LoadProducts(CurrentFilterMethod, CurrentSortMethod, CurrentSearchText);
         }
 
         private void newProductButton_Click(object sender, RoutedEventArgs e)
@@ -183,7 +136,7 @@ namespace ShoeAccounting.Views.Windows
             {
                 if (Window.GetWindow(this) is CatalogWindow catalogWindow)
                 {
-                    catalogWindow.LoadProducts();
+                    LoadProducts(CurrentFilterMethod, CurrentSortMethod, CurrentSearchText);
                 }
             }
         }

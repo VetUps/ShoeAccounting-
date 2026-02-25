@@ -1,17 +1,8 @@
 ﻿using ShoeAccounting.Models;
 using ShoeAccounting.Utils;
 using ShoeAccounting.Views.Windows;
-using System.Data.Common;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using static ShoeAccounting.Controllers.UserController;
 
 namespace ShoeAccounting
 {
@@ -57,16 +48,6 @@ namespace ShoeAccounting
                 return "Пароль не может быть пустым";
 
             return null;
-        }
-
-        private User? LoginUser(string login, string password)
-        {
-            using (ShoesDbContext context = new ShoesDbContext())
-            {
-                User? user = context.Users.FirstOrDefault(u => u.UserLogin == login && u.UserPassword == password);
-
-                return user == null ? null:user;
-            }
         }
 
         private void NavigateToCatalog()

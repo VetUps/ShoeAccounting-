@@ -1,18 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ShoeAccounting.Models;
+﻿using ShoeAccounting.Models;
 using ShoeAccounting.Utils;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using static ShoeAccounting.Controllers.OrderController;
 
 namespace ShoeAccounting.Views.Windows
 {
@@ -46,23 +36,10 @@ namespace ShoeAccounting.Views.Windows
         public OrdersWindow()
         {
             CurrentUser = UserContext.CurrentUser;
-            OrdersList = LoadOrders();
+            OrdersList = GetOrders();
             InitializeComponent();
 
             DataContext = this;
-        }
-
-        public List<Order> LoadOrders()
-        {
-            using (ShoesDbContext context = new ShoesDbContext())
-            {
-                List<Order> orders = context.Orders
-                    .Include(o => o.PickUpPoint)
-                    .Include(o => o.OrderPositions)
-                    .OrderByDescending(o => o.OrderDateMake)
-                    .ToList();
-                return orders;
-            }
         }
 
         private void backToCatalogButton_Click(object sender, RoutedEventArgs e)
@@ -78,7 +55,7 @@ namespace ShoeAccounting.Views.Windows
             {
                 if (Window.GetWindow(this) is OrdersWindow orderWindow)
                 {
-                    OrdersList = orderWindow.LoadOrders();
+                    OrdersList = GetOrders();
                 }
             }
         }

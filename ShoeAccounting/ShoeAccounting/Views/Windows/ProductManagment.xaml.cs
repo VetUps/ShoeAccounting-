@@ -1,18 +1,13 @@
 ﻿using Microsoft.Win32;
 using ShoeAccounting.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using SixLabors.ImageSharp;
+using static ShoeAccounting.Controllers.CategoryController;
+using static ShoeAccounting.Controllers.ManufacturerController;
+using static ShoeAccounting.Controllers.ProviderController;
+using static ShoeAccounting.Controllers.ProductController;
 
 namespace ShoeAccounting.Views.Windows
 {
@@ -89,12 +84,9 @@ namespace ShoeAccounting.Views.Windows
 
         private void LoadComboBoxData()
         {
-            using (ShoesDbContext context = new ShoesDbContext())
-            {
-                Categories = context.Categories.ToList();
-                Manufacturers = context.Manufacturers.ToList();
-                Providers = context.Providers.ToList();
-            }
+            Categories = GetCategories();
+            Manufacturers = GetManufacturers();
+            Providers = GetProviders();
         }
 
         private string GenerateArticle()
@@ -203,38 +195,28 @@ namespace ShoeAccounting.Views.Windows
 
             try
             {
-                using (ShoesDbContext context = new ShoesDbContext())
+                if (IsProductNew)
                 {
-                    if (IsProductNew)
-                    {
-                        context.Products.Add(CurrentProduct);
-                    }
-                    else
-                    {
-                        var existingProduct = context.Products
-                            .FirstOrDefault(p => p.ProductArticle == CurrentProduct.ProductArticle);
-
-                        if (existingProduct != null)
-                        {
-                            context.Entry(existingProduct).CurrentValues.SetValues(CurrentProduct);
-                        }
-                    }
-
-                    context.SaveChanges();
+                    CreateProduct(CurrentProduct);
                 }
+                else
+                {
+                    UpdateProduct(CurrentProduct);
+                }
+
                 MessageBox.Show("Товар успешно сохранён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+                Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при сохранении товара:\n{ex.Message}\n\n{ex.StackTrace}",
-                    "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
+                                 "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void loadProductImageButton_Click(object sender, RoutedEventArgs e)

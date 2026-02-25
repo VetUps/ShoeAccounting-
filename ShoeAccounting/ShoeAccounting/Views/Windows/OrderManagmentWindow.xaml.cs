@@ -1,19 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ShoeAccounting.Models;
+﻿using ShoeAccounting.Models;
 using ShoeAccounting.Utils;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using static ShoeAccounting.Controllers.OrderController;
 
 namespace ShoeAccounting.Views.Windows
 {
@@ -348,77 +339,50 @@ namespace ShoeAccounting.Views.Windows
                 return;
             }
 
-            try
+            if (IsOrderNew)
             {
-                using (ShoesDbContext context = new ShoesDbContext())
+                List<OrderPosition> positions = new List<OrderPosition>();
+
+                foreach (var pos in _positions)
                 {
-                    if (IsOrderNew)
+                    positions.Add(new OrderPosition
                     {
-                        CurrentOrder.UserId = UserContext.CurrentUser.UserId;
-                        context.Orders.Add(CurrentOrder);
-                        context.SaveChanges();
-
-                        foreach (var pos in _positions)
-                        {
-                            context.OrderPositions.Add(new OrderPosition
-                            {
-                                OrderId = CurrentOrder.OrderId,
-                                ProductArticle = pos.ProductArticle,
-                                ProductQuantity = pos.Quantity
-                            });
-                        }
-                    }
-                    else
-                    {
-                        var dbOrder = context.Orders
-                            .Include(o => o.OrderPositions)
-                            .First(o => o.OrderId == CurrentOrder.OrderId);
-
-                        dbOrder.OrderDateMake = CurrentOrder.OrderDateMake;
-                        dbOrder.OrderDateReceipt = CurrentOrder.OrderDateReceipt;
-                        dbOrder.PickUpPointId = CurrentOrder.PickUpPointId;
-                        dbOrder.OrderStatus = CurrentOrder.OrderStatus;
-
-                        context.OrderPositions.RemoveRange(dbOrder.OrderPositions);
-                        dbOrder.OrderPositions.Clear();
-
-                        foreach (var pos in _positions)
-                        {
-                            dbOrder.OrderPositions.Add(new OrderPosition
-                            {
-                                ProductArticle = pos.ProductArticle,
-                                ProductQuantity = pos.Quantity
-                            });
-                        }
-                    }
-
-                    context.SaveChanges();
+                        OrderId = CurrentOrder.OrderId,
+                        ProductArticle = pos.ProductArticle,
+                        ProductQuantity = pos.Quantity
+                    });
                 }
 
-                MessageBox.Show(IsOrderNew
-                    ? "Заказ успешно создан!"
-                    : "Заказ успешно обновлён!",
-                    "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                CreateOrder(CurrentOrder, positions, UserContext.CurrentUser.UserId);
+            }
+            else
+            {
+                List<OrderPosition> positions = new List<OrderPosition>();
 
-                DialogResult = true;
-                this.Close();
+                foreach (var pos in _positions)
+                {
+                    positions.Add(new OrderPosition
+                    {
+                        ProductArticle = pos.ProductArticle,
+                        ProductQuantity = pos.Quantity
+                    });
+                }
+
+                UpdateOrder(CurrentOrder, positions);
             }
-            catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("foreign key") == true)
-            {
-                MessageBox.Show("Ошибка целостности данных: выбранный продукт или пункт выдачи был удалён из базы.\n" +
-                               "Пожалуйста, обновите список и выберите корректные значения.",
-                               "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при сохранении заказа:\n{ex.Message}",
-                               "Ошибка базы данных", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
+            MessageBox.Show(IsOrderNew
+                ? "Заказ успешно создан!"
+                : "Заказ успешно обновлён!",
+                "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            DialogResult = true;
+            Close();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close(); 
+            Close(); 
         }
 
         private void orderDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
