@@ -8,9 +8,6 @@ using static ShoeAccounting.Controllers.ProviderController;
 
 namespace ShoeAccounting.Views.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для CatalogWindow.xaml
-    /// </summary>
     public partial class CatalogWindow : Window, INotifyPropertyChanged
     {
         private List<string> _providersFiltrationList; 

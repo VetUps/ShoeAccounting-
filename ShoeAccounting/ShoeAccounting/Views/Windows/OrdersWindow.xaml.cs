@@ -6,9 +6,6 @@ using static ShoeAccounting.Controllers.OrderController;
 
 namespace ShoeAccounting.Views.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для OrdersWindow.xaml
-    /// </summary>
     public partial class OrdersWindow : Window, INotifyPropertyChanged
     {
         private List<Order> _ordersList;
